@@ -12,6 +12,8 @@ const NAV_GROUPS = [
     label: '能耗管理',
     items: [
       { path: '/admin/energy/consumption', title: '能耗查询', mark: '01' },
+      { path: '/admin/energy/meter-curve', title: '单器具曲线', mark: '01-1' },
+      { path: '/admin/energy/analysis-enhanced', title: '能源分析增强', mark: '01-2' },
       { path: '/admin/energy/calculation', title: '能耗计算', mark: '02' },
       { path: '/admin/energy/analysis', title: '用能分析与策略', mark: '03' },
       { path: '/admin/energy/benchmark', title: '能效对标', mark: '04' },

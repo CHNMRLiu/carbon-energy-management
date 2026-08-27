@@ -7,8 +7,10 @@ const routes = [
     component: () => import('@/layouts/AdminLayout.vue'),
     redirect: '/admin/energy/consumption',
     children: [
-      // 能耗管理（功能 1-6）
+      // 能耗管理（功能 1-6 + 新增单器具曲线）
       { path: 'energy/consumption', name: 'EnergyConsumption', component: () => import('@/views/admin/EnergyConsumption.vue'), meta: { title: '能耗查询' } },
+      { path: 'energy/meter-curve', name: 'MeterCurve', component: () => import('@/views/admin/MeterCurve.vue'), meta: { title: '单器具曲线' } },
+      { path: 'energy/analysis-enhanced', name: 'EnergyAnalysisEnhanced', component: () => import('@/views/admin/EnergyAnalysisEnhanced.vue'), meta: { title: '能源分析增强' } },
       { path: 'energy/calculation', name: 'EnergyCalculation', component: () => import('@/views/admin/EnergyCalculation.vue'), meta: { title: '能耗计算' } },
       { path: 'energy/analysis', name: 'EnergyAnalysis', component: () => import('@/views/admin/EnergyAnalysis.vue'), meta: { title: '用能分析与策略推荐' } },
       { path: 'energy/benchmark', name: 'EnergyBenchmark', component: () => import('@/views/admin/EnergyBenchmark.vue'), meta: { title: '能效对标' } },

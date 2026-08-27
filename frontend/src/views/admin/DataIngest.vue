@@ -12,6 +12,7 @@ const points = ref([])
 const dialogVisible = ref(false)
 const submitting = ref(false)
 const formRef = ref(null)
+const periodType = ref('month') // 'day' | 'month'
 const form = reactive({
   point_code: '',
   period: '',
@@ -51,6 +52,7 @@ async function load() {
 
 function openDialog(row) {
   form.point_code = row?.code || ''
+  periodType.value = 'month'
   form.period = ''
   form.value = null
   form.remark = ''
@@ -112,8 +114,29 @@ onMounted(load)
             <el-option v-for="p in points" :key="p.code" :label="`${p.code} · ${p.name}`" :value="p.code" />
           </el-select>
         </el-form-item>
+        <el-form-item label="周期类型">
+          <el-radio-group v-model="periodType">
+            <el-radio value="day">日录入</el-radio>
+            <el-radio value="month">月录入</el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="填报期间" prop="period">
-          <el-date-picker v-model="form.period" type="month" placeholder="选择月份" value-format="YYYY-MM" style="width: 100%" />
+          <el-date-picker 
+            v-if="periodType === 'day'"
+            v-model="form.period" 
+            type="date" 
+            placeholder="选择日期" 
+            value-format="YYYY-MM-DD" 
+            style="width: 100%" 
+          />
+          <el-date-picker 
+            v-else
+            v-model="form.period" 
+            type="month" 
+            placeholder="选择月份" 
+            value-format="YYYY-MM" 
+            style="width: 100%" 
+          />
         </el-form-item>
         <el-form-item label="数值" prop="value">
           <el-input-number v-model="form.value" :min="0" :precision="2" :controls="false" style="width: 100%" placeholder="请输入该期间能耗数值" />

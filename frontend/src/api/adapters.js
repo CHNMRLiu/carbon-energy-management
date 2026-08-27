@@ -111,6 +111,120 @@ export function adapConsumption(d = {}) {
   }
 }
 
+/* ---------------- 单器具曲线查询（新增） ---------------- */
+
+export function adapMeterCurve(d = {}) {
+  return {
+    point_code: d.point_code || '--',
+    point_name: d.point_name || '--',
+    energy_code: d.energy_code || '--',
+    energy_name: d.energy_name || '--',
+    period: d.period || 'day',
+    dimension: d.dimension || 'energy',
+    data: (Array.isArray(d.data) ? d.data : []).map((item) => ({
+      time: item.time || '--',
+      value: num(item.value),
+      unit: item.unit || ''
+    }))
+  }
+}
+
+/* ---------------- 计量对标/计量环比/单元对标（新增） ---------------- */
+
+export function adapMeterComparison(d = {}) {
+  const m1 = d.meter1 || {}
+  const m2 = d.meter2 || {}
+  const comp = d.comparison || {}
+  
+  return {
+    meter1: {
+      id: m1.id,
+      code: m1.code,
+      name: m1.name || '计量点1',
+      energy_code: m1.energy_code,
+      energy_name: ENERGY_NAME[m1.energy_code] || m1.energy_code,
+      unit: m1.unit || '',
+      total: num(m1.total),
+      series: Array.isArray(m1.series) ? m1.series : []
+    },
+    meter2: {
+      id: m2.id,
+      code: m2.code,
+      name: m2.name || '计量点2',
+      energy_code: m2.energy_code,
+      energy_name: ENERGY_NAME[m2.energy_code] || m2.energy_code,
+      unit: m2.unit || '',
+      total: num(m2.total),
+      series: Array.isArray(m2.series) ? m2.series : []
+    },
+    comparison: {
+      difference: num(comp.difference),
+      diff_percent: num(comp.diff_percent),
+      higher: comp.higher,
+      time_labels: Array.isArray(comp.time_labels) ? comp.time_labels : []
+    }
+  }
+}
+
+export function adapMeterTrend(d = {}) {
+  const meter = d.meter || {}
+  const trend = d.trend || {}
+  
+  return {
+    meter: {
+      id: meter.id,
+      code: meter.code,
+      name: meter.name || '未知计量点',
+      energy_code: meter.energy_code,
+      energy_name: ENERGY_NAME[meter.energy_code] || meter.energy_code,
+      unit: meter.unit || ''
+    },
+    trend: {
+      period_type: trend.period_type,
+      period_names: Array.isArray(trend.period_names) ? trend.period_names : [],
+      values: Array.isArray(trend.values) ? trend.values : [],
+      change: num(trend.change),
+      change_percent: num(trend.change_percent)
+    }
+  }
+}
+
+export function adapUnitComparison(d = {}) {
+  const u1 = d.unit1 || {}
+  const u2 = d.unit2 || {}
+  const comp = d.comparison || {}
+  
+  const adaptDetails = (details) => {
+    return (Array.isArray(details) ? details : []).map((r) => ({
+      energy_code: r.energy_code,
+      energy_name: r.energy_name || ENERGY_NAME[r.energy_code] || r.energy_code,
+      unit: r.unit || '',
+      quantity: num(r.quantity),
+      ce_tce: num(r.ce_quantity)
+    }))
+  }
+  
+  return {
+    unit1: {
+      code: u1.code,
+      name: u1.name || '用能单元1',
+      total_ce_tce: num(u1.total_ce_tce),
+      details: adaptDetails(u1.details)
+    },
+    unit2: {
+      code: u2.code,
+      name: u2.name || '用能单元2',
+      total_ce_tce: num(u2.total_ce_tce),
+      details: adaptDetails(u2.details)
+    },
+    comparison: {
+      difference: num(comp.difference),
+      diff_percent: num(comp.diff_percent),
+      higher: comp.higher
+    }
+  }
+}
+
 /* ---------------- 能耗计算 ---------------- */
 
 export function adapCalculation(d = {}) {

@@ -1,6 +1,7 @@
 import client from './client'
 import {
-  adapOverview, adapConsumption, adapCalculation, adapAnalysis, adapBenchmark,
+  adapOverview, adapConsumption, adapMeterCurve, adapMeterComparison, adapMeterTrend, adapUnitComparison,
+  adapCalculation, adapAnalysis, adapBenchmark,
   adapFlow, adapOptimization, adapBudget, adapEmission, adapFootprint,
   adapSupplyChain, adapAudit, adapAsset, adapIngestPoints
 } from './adapters'
@@ -15,6 +16,10 @@ export const api = {
 
   // 能耗管理
   energyConsumption: (params) => client.get('/energy/consumption', { params }).then(adapConsumption),
+  meterCurve: (params) => client.get('/energy/meter-curve', { params }).then(adapMeterCurve),
+  meterComparison: (params) => client.get('/energy/meter-comparison', { params }).then(adapMeterComparison),
+  meterTrend: (params) => client.get('/energy/meter-trend', { params }).then(adapMeterTrend),
+  unitComparison: (params) => client.get('/energy/unit-comparison', { params }).then(adapUnitComparison),
   energyCalculation: (params) => client.get('/energy/calculation', { params }).then(adapCalculation),
   energyAnalysis: () => client.get('/energy/analysis').then(adapAnalysis),
   energyBenchmark: () => client.get('/energy/benchmark').then(adapBenchmark),
