@@ -2,7 +2,7 @@
 
 > 一站式能碳数据监测、核算、分析与决策平台
 
-[![Version](https://img.shields.io/badge/version-0.1.1-blue)]()
+[![Version](https://img.shields.io/badge/version-0.2.0-blue)]()
 [![Python](https://img.shields.io/badge/python-3.10+-green)]()
 [![Vue](https://img.shields.io/badge/vue-3.4+-brightgreen)]()
 [![FastAPI](https://img.shields.io/badge/fastapi-0.115+-teal)]()
@@ -82,6 +82,27 @@
 - 碳配额仪表盘（仪表图）
 - 底部 KPI：综合能耗累计、碳排放累计、实时功率、碳配额盈余
 - 支持日夜主题切换
+
+---
+
+## v0.2.0 新特性
+
+### ✨ 新增功能
+
+1. **单器具曲线查询** - 支持日/周/月/年四种周期，能耗/成本/碳排三种维度
+2. **计量对标/环比/单元对标** - 3个新API端点，多维度对比分析
+3. **自定义测评指标** - 能效对标支持用户自定义指标
+4. **日录入功能** - 数据采集支持日周期手工填报
+5. **凭证管理** - 碳核查支撑增加凭证上传/查看/下载
+6. **正式年度报告导出** - HTML格式碳排放核算报告一键生成
+7. **碳价展示与交易模拟** - 实时碳价显示与碳交易模拟操作
+
+### 📊 功能完成度
+
+- **v0.1.1**: 18/26 功能（69%）
+- **v0.2.0**: **26/26 功能（100%）** ✅
+
+详见 [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
