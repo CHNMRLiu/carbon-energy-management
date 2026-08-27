@@ -1,0 +1,1 @@
+import{_ as o,c as t,g as c,i as r,l as s}from"./index-CTm01tiw.js";const n={},a={class:"screen-layout"};function _(d,i){const e=r("router-view");return s(),t("div",a,[c(e)])}const p=o(n,[["render",_],["__scopeId","data-v-d586db5b"]]);export{p as default};
