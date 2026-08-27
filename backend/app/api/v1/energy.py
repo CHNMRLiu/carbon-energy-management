@@ -413,7 +413,7 @@ def meter_comparison(
     from datetime import datetime, timedelta
     
     # 获取两个计量点信息
-    with session_scope("base") as s:
+    with session_scope("collection") as s:
         meter1 = s.get(MeterPoint, meter1_id)
         meter2 = s.get(MeterPoint, meter2_id)
     
@@ -518,7 +518,7 @@ def meter_trend(
     from datetime import datetime, timedelta
     
     # 获取计量点信息
-    with session_scope("base") as s:
+    with session_scope("collection") as s:
         meter = s.get(MeterPoint, meter_id)
     
     if not meter:

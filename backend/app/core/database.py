@@ -5,6 +5,7 @@
 """
 from contextlib import contextmanager
 
+import sqlalchemy
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker
 
@@ -28,6 +29,7 @@ def _make_engine(db_path):
         cursor.execute("PRAGMA journal_mode=WAL")
         cursor.execute("PRAGMA synchronous=NORMAL")
         cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.execute("PRAGMA wal_autocheckpoint=1000")  # 自动checkpoint
         cursor.close()
 
     return engine
@@ -86,13 +88,24 @@ def get_statistics_db():
 
 
 def create_all_tables():
-    """对四库执行 metadata.create_all（幂等）。"""
+    """对四库执行 metadata.create_all（幂等）。仅在初始化时调用一次。"""
     from app.models.base import Base as BaseBase
     from app.models.collection import Base as CollectionBase
     from app.models.business import Base as BusinessBase
     from app.models.statistics import Base as StatisticsBase
 
+    # 注意：不清除缓存的引擎和会话工厂，避免 WAL 模式下的时序问题
+    # _engines.clear()
+    # _session_factories.clear()
+
     BaseBase.metadata.create_all(get_engine("base"))
     CollectionBase.metadata.create_all(get_engine("collection"))
     BusinessBase.metadata.create_all(get_engine("business"))
     StatisticsBase.metadata.create_all(get_engine("statistics"))
+    
+    # Checkpoint WAL files to ensure data is written to main database
+    for name in ["base", "collection", "business", "statistics"]:
+        engine = get_engine(name)
+        with engine.connect() as conn:
+            conn.execute(sqlalchemy.text("PRAGMA wal_checkpoint(TRUNCATE)"))
+            conn.commit()
